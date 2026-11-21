@@ -36,7 +36,8 @@ jobs:
       - name: Fetch the published gid package as the ../gid sibling
         run: |
           dub fetch "gid@${{ env.GID_VERSION }}"
-          cp -r "$HOME/.dub/packages/gid/${{ env.GID_VERSION }}/gid" "${{ github.workspace }}/gid"
+          mkdir -p "$(dirname "${{ github.workspace }}")"
+          cp -r "$HOME/.dub/packages/gid/${{ env.GID_VERSION }}/gid" "$(dirname "${{ github.workspace }}")/gid"
 
       - name: Generate bindings
         working-directory: gid_apache
