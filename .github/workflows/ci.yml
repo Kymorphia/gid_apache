@@ -31,7 +31,6 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: Kymorphia/gidgen
-          ref: main
           path: gidgen
 
       - name: Fetch the published gid package as the ../gid sibling
