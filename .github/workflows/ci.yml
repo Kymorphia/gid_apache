@@ -8,7 +8,7 @@ on:
 
 env:
   # gid version this repository's packages depend on (see gidgen.json). The published DUB
-  # package provides the defs/ and gir/ of the gid dependency; gidgen itself is checked
+  # package zip provides the defs/ and gir/ of the gid dependency; gidgen itself is checked
   # out from its own repository below. No local sibling checkout of gid is needed.
   GID_VERSION: "0.9.16"
 
@@ -20,7 +20,8 @@ jobs:
 
     steps:
       - name: Install Git and D toolchain
-        run: dnf install -y git ldc dub glib2-devel make pkg-config gobject-introspection-devel
+        run: |
+          dnf install -y git ldc dub glib2-devel make pkg-config gobject-introspection-devel unzip
 
       - name: Checkout gid_apache
         uses: actions/checkout@v4
@@ -35,15 +36,15 @@ jobs:
 
       - name: Fetch the published gid package as the ../gid sibling
         run: |
-          dub fetch "gid@${{ env.GID_VERSION }}"
-          mkdir -p "$(dirname "${{ github.workspace }}")"
-          cp -r "$HOME/.dub/packages/gid/${{ env.GID_VERSION }}/gid" "$(dirname "${{ github.workspace }}")/gid"
+          curl -sL "https://code.dlang.org/packages/gid/${{ env.GID_VERSION }}.zip" -o gid.zip
+          unzip -q gid.zip -d "${{ github.workspace }}"
+          mv "${{ github.workspace }}/gid-${{ env.GID_VERSION }}" "${{ github.workspace }}/gid"
 
       - name: Generate bindings
         working-directory: gid_apache
         run: |
           git config --global --add safe.directory '*'
-          make binding GID_DIR=..
+          dub run --root=../gidgen --compiler=ldc2 gidgen -- --config "${{ github.workspace }}/gid_apache/gidgen.json" --report --report-file report.txt
 
       - name: Check generated files are up to date
         working-directory: gid_apache
