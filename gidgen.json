@@ -8,7 +8,7 @@
       "name": "gid",
       "defs": "../gid/defs",
       "gir": "../gid/gir",
-      "version": "~>0.9.15"
+      "version": "~>0.9.16"
     }
   ]
 }
