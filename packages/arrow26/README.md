@@ -1,0 +1,14 @@
+# D binding for Apache Arrow 26.0 GLib - Universal columnar format and multi-language toolbox
+
+This [Dub](https://dub.pm/) sub-package of [giD](https://gid.dub.pm) provides a [D language](https://www.dlang.org) binding to the [Arrow 26.0](https://arrow.apache.org) library.
+
+## Information
+
+|     |     |
+| --- | --- |
+| **Dub Package**          | [gid_apache:arrow26](https://code.dlang.org/packages/gid_apache%3Aarrow26)       |
+| **Library Homepage**     | https://arrow.apache.org                                                         |
+| **D API Reference**      | https://www.kymorphia.com/gid/gid_apache~arrow26/                                |
+| **C API Reference**      | https://arrow.apache.org/docs/c_glib/arrow-glib/index.html                       |
+
+Consult the [giD README](https://github.com/Kymorphia/gid) for more information on programming with giD and links to examples.
