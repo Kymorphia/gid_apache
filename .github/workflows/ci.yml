@@ -53,3 +53,7 @@ jobs:
       - name: Make packages
         working-directory: gid_apache
         run: make packages GID_LOCAL_VERSION=${{ env.GID_LOCAL_VERSION }}
+
+      - name: Test
+        working-directory: gid_apache
+        run: dub test --compiler=ldc2
