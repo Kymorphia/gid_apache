@@ -7,11 +7,10 @@ on:
     branches: [ '**' ]
 
 env:
-  # Ref of the gid repository providing the defs, GIRs, gidgen and the packages this repository depends on.
-  # Use the release tag matching the dependency version in gidgen.json once gid has a release which includes
-  # support for dependency repositories in gidgen.
-  GID_REF: main
-  GID_LOCAL_VERSION: "0.9.15"
+  # gid version this repository's packages depend on (see gidgen.json). The published DUB
+  # package provides the defs/ and gir/ of the gid dependency; gidgen itself is checked
+  # out from its own repository below. No local sibling checkout of gid is needed.
+  GID_VERSION: "0.9.16"
 
 jobs:
   build:
@@ -20,39 +19,39 @@ jobs:
     container: fedora:latest
 
     steps:
-      - name: Install Git
-        run: dnf install -y git
+      - name: Install Git and D toolchain
+        run: dnf install -y git ldc dub glib2-devel make pkg-config gobject-introspection-devel
 
       - name: Checkout gid_apache
         uses: actions/checkout@v4
         with:
           path: gid_apache
 
-      - name: Checkout gid as a sibling
+      - name: Checkout gidgen
         uses: actions/checkout@v4
         with:
-          repository: Kymorphia/gid
-          ref: ${{ env.GID_REF }}
-          path: gid
-          submodules: true
+          repository: Kymorphia/gidgen
+          ref: main
+          path: gidgen
 
-      - name: Install dependencies
+      - name: Fetch the published gid package as the ../gid sibling
         run: |
-          dnf install -y gcc-gdc ldc dub glib2-devel make pkg-config gobject-introspection-devel
+          dub fetch "gid@${{ env.GID_VERSION }}"
+          cp -r "$HOME/.dub/packages/gid/${{ env.GID_VERSION }}/gid" "${{ github.workspace }}/gid"
 
       - name: Generate bindings
         working-directory: gid_apache
         run: |
           git config --global --add safe.directory '*'
-          make binding
+          make binding GID_DIR=..
 
       - name: Check generated files are up to date
         working-directory: gid_apache
         run: git diff --exit-code && test -z "$(git ls-files --others --exclude-standard)"
 
-      - name: Make packages
+      - name: Build packages (gid from the DUB registry)
         working-directory: gid_apache
-        run: make packages GID_LOCAL_VERSION=${{ env.GID_LOCAL_VERSION }}
+        run: dub build --parallel --compiler=ldc2 --debug debug
 
       - name: Test
         working-directory: gid_apache
