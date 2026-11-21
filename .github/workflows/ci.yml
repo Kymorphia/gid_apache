@@ -36,15 +36,15 @@ jobs:
 
       - name: Fetch the published gid package as the ../gid sibling
         run: |
-          curl -sL "https://code.dlang.org/packages/gid/${{ env.GID_VERSION }}.zip" -o gid.zip
-          unzip -q gid.zip -d "${{ github.workspace }}"
-          mv "${{ github.workspace }}/gid-${{ env.GID_VERSION }}" "${{ github.workspace }}/gid"
+          curl -sL "https://code.dlang.org/packages/gid/${{ env.GID_VERSION }}.zip" -o /tmp/gid.zip
+          unzip -q /tmp/gid.zip -d .
+          mv "gid-${{ env.GID_VERSION }}" gid
 
       - name: Generate bindings
         working-directory: gid_apache
         run: |
           git config --global --add safe.directory '*'
-          dub run --root=../gidgen --compiler=ldc2 gidgen -- --config "${{ github.workspace }}/gid_apache/gidgen.json" --report --report-file report.txt
+          dub run --root=../gidgen --compiler=ldc2 gidgen -- --config "$(pwd)/gidgen.json" --report --report-file report.txt
 
       - name: Check generated files are up to date
         working-directory: gid_apache
