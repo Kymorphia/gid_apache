@@ -1,0 +1,297 @@
+/// Module for [ExecutePlan] class
+module gid_apache.arrow19.execute_plan;
+
+public import gid.core.basictypes;
+import gid.core.utils;
+import gid.glib2.error;
+import gid.gobject2.gid_builder;
+import gid.gobject2.object;
+import gid_apache.arrow19.aggregate_node_options;
+import gid_apache.arrow19.c.functions;
+import gid_apache.arrow19.c.types;
+import gid_apache.arrow19.execute_node;
+import gid_apache.arrow19.execute_node_options;
+import gid_apache.arrow19.filter_node_options;
+import gid_apache.arrow19.hash_join_node_options;
+import gid_apache.arrow19.project_node_options;
+import gid_apache.arrow19.sink_node_options;
+import gid_apache.arrow19.source_node_options;
+import gid_apache.arrow19.types;
+
+/** */
+class ExecutePlan : gid.gobject2.object.ObjectWrap
+{
+
+  /** */
+  this(void* ptr, Flag!"Take" take) nothrow
+  {
+    super(ptr, take);
+  }
+
+  /** */
+  static GType _getGType() nothrow
+  {
+    import gid.core.loader : gidSymbolNotFound;
+    return cast(void function())garrow_execute_plan_get_type != &gidSymbolNotFound ? garrow_execute_plan_get_type() : cast(GType)0;
+  }
+
+  /** */
+  override @property GType _gType() nothrow
+  {
+    return _getGType();
+  }
+
+  /** */
+  override @property string _gTypeName() nothrow
+  {
+    return "GArrowExecutePlan";
+  }
+
+  /** Returns `this`, for use in `with` statements. */
+  override ExecutePlan self() nothrow
+  {
+    return this;
+  }
+
+  /**
+      Get builder for [gid_apache.arrow19.execute_plan.ExecutePlan]
+      Returns: New builder object
+  */
+  static ExecutePlanGidBuilder builder() nothrow
+  {
+    return new ExecutePlanGidBuilder;
+  }
+
+  /** */
+  this()
+  {
+    GArrowExecutePlan* _cretval;
+    GError *_err;
+    _cretval = garrow_execute_plan_new(&_err);
+    if (_err)
+      throw new ErrorWrap(_err, Yes.Take);
+    this(_cretval, Yes.Take);
+  }
+
+  /**
+      This is a shortcut of [gid_apache.arrow26.execute_plan.ExecutePlan.buildNode] for aggregate
+      node.
+  
+      Params:
+        input = A #GArrowExecuteNode.
+        options = A #GArrowAggregateNodeOptions.
+      Returns: A newly built and added #GArrowExecuteNode
+          for aggregation on success, null on error.
+      Throws: [ErrorWrap]
+  */
+  gid_apache.arrow19.execute_node.ExecuteNode buildAggregateNode(gid_apache.arrow19.execute_node.ExecuteNode input, gid_apache.arrow19.aggregate_node_options.AggregateNodeOptions options)
+  {
+    GArrowExecuteNode* _cretval;
+    GError *_err;
+    _cretval = garrow_execute_plan_build_aggregate_node(cast(GArrowExecutePlan*)this._cPtr, input ? cast(GArrowExecuteNode*)input._cPtr(No.Dup) : null, options ? cast(GArrowAggregateNodeOptions*)options._cPtr(No.Dup) : null, &_err);
+    if (_err)
+      throw new ErrorWrap(_err, Yes.Take);
+    auto _retval = gid.gobject2.object.ObjectWrap._getDObject!(gid_apache.arrow19.execute_node.ExecuteNode)(cast(GArrowExecuteNode*)_cretval, Yes.Take);
+    return _retval;
+  }
+
+  /**
+      This is a shortcut of [gid_apache.arrow26.execute_plan.ExecutePlan.buildNode] for filter
+      node.
+  
+      Params:
+        input = A #GArrowExecuteNode.
+        options = A #GArrowFilterNodeOptions.
+      Returns: A newly built and added #GArrowExecuteNode
+          for filter on success, null on error.
+      Throws: [ErrorWrap]
+  */
+  gid_apache.arrow19.execute_node.ExecuteNode buildFilterNode(gid_apache.arrow19.execute_node.ExecuteNode input, gid_apache.arrow19.filter_node_options.FilterNodeOptions options)
+  {
+    GArrowExecuteNode* _cretval;
+    GError *_err;
+    _cretval = garrow_execute_plan_build_filter_node(cast(GArrowExecutePlan*)this._cPtr, input ? cast(GArrowExecuteNode*)input._cPtr(No.Dup) : null, options ? cast(GArrowFilterNodeOptions*)options._cPtr(No.Dup) : null, &_err);
+    if (_err)
+      throw new ErrorWrap(_err, Yes.Take);
+    auto _retval = gid.gobject2.object.ObjectWrap._getDObject!(gid_apache.arrow19.execute_node.ExecuteNode)(cast(GArrowExecuteNode*)_cretval, Yes.Take);
+    return _retval;
+  }
+
+  /**
+      This is a shortcut of [gid_apache.arrow26.execute_plan.ExecutePlan.buildNode] for hash
+      join node.
+  
+      Params:
+        left = A left #GArrowExecuteNode.
+        right = A right #GArrowExecuteNode.
+        options = A #GArrowHashJoinNodeOptions.
+      Returns: A newly built and added #GArrowExecuteNode
+          for hash join on success, null on error.
+      Throws: [ErrorWrap]
+  */
+  gid_apache.arrow19.execute_node.ExecuteNode buildHashJoinNode(gid_apache.arrow19.execute_node.ExecuteNode left, gid_apache.arrow19.execute_node.ExecuteNode right, gid_apache.arrow19.hash_join_node_options.HashJoinNodeOptions options)
+  {
+    GArrowExecuteNode* _cretval;
+    GError *_err;
+    _cretval = garrow_execute_plan_build_hash_join_node(cast(GArrowExecutePlan*)this._cPtr, left ? cast(GArrowExecuteNode*)left._cPtr(No.Dup) : null, right ? cast(GArrowExecuteNode*)right._cPtr(No.Dup) : null, options ? cast(GArrowHashJoinNodeOptions*)options._cPtr(No.Dup) : null, &_err);
+    if (_err)
+      throw new ErrorWrap(_err, Yes.Take);
+    auto _retval = gid.gobject2.object.ObjectWrap._getDObject!(gid_apache.arrow19.execute_node.ExecuteNode)(cast(GArrowExecuteNode*)_cretval, Yes.Take);
+    return _retval;
+  }
+
+  /** */
+  gid_apache.arrow19.execute_node.ExecuteNode buildNode(string factoryName, gid_apache.arrow19.execute_node.ExecuteNode[] inputs, gid_apache.arrow19.execute_node_options.ExecuteNodeOptions options)
+  {
+    GArrowExecuteNode* _cretval;
+    const(char)* _factoryName = factoryName.toCString!(No.Malloc, No.Nullable);
+    auto _inputs = gListFromD!(gid_apache.arrow19.execute_node.ExecuteNode)(inputs);
+    scope(exit) containerFree!(GList*, gid_apache.arrow19.execute_node.ExecuteNode, GidOwnership.None)(_inputs);
+    GError *_err;
+    _cretval = garrow_execute_plan_build_node(cast(GArrowExecutePlan*)this._cPtr, _factoryName, _inputs, options ? cast(GArrowExecuteNodeOptions*)options._cPtr(No.Dup) : null, &_err);
+    if (_err)
+      throw new ErrorWrap(_err, Yes.Take);
+    auto _retval = gid.gobject2.object.ObjectWrap._getDObject!(gid_apache.arrow19.execute_node.ExecuteNode)(cast(GArrowExecuteNode*)_cretval, Yes.Take);
+    return _retval;
+  }
+
+  /**
+      This is a shortcut of [gid_apache.arrow26.execute_plan.ExecutePlan.buildNode] for project
+      node.
+  
+      Params:
+        input = A #GArrowExecuteNode.
+        options = A #GArrowProjectNodeOptions.
+      Returns: A newly built and added #GArrowExecuteNode
+          for project on success, null on error.
+      Throws: [ErrorWrap]
+  */
+  gid_apache.arrow19.execute_node.ExecuteNode buildProjectNode(gid_apache.arrow19.execute_node.ExecuteNode input, gid_apache.arrow19.project_node_options.ProjectNodeOptions options)
+  {
+    GArrowExecuteNode* _cretval;
+    GError *_err;
+    _cretval = garrow_execute_plan_build_project_node(cast(GArrowExecutePlan*)this._cPtr, input ? cast(GArrowExecuteNode*)input._cPtr(No.Dup) : null, options ? cast(GArrowProjectNodeOptions*)options._cPtr(No.Dup) : null, &_err);
+    if (_err)
+      throw new ErrorWrap(_err, Yes.Take);
+    auto _retval = gid.gobject2.object.ObjectWrap._getDObject!(gid_apache.arrow19.execute_node.ExecuteNode)(cast(GArrowExecuteNode*)_cretval, Yes.Take);
+    return _retval;
+  }
+
+  /**
+      This is a shortcut of [gid_apache.arrow26.execute_plan.ExecutePlan.buildNode] for sink
+      node.
+  
+      Params:
+        input = A #GArrowExecuteNode.
+        options = A #GArrowSinkNodeOptions.
+      Returns: A newly built and added #GArrowExecuteNode
+          for sink on success, null on error.
+      Throws: [ErrorWrap]
+  */
+  gid_apache.arrow19.execute_node.ExecuteNode buildSinkNode(gid_apache.arrow19.execute_node.ExecuteNode input, gid_apache.arrow19.sink_node_options.SinkNodeOptions options)
+  {
+    GArrowExecuteNode* _cretval;
+    GError *_err;
+    _cretval = garrow_execute_plan_build_sink_node(cast(GArrowExecutePlan*)this._cPtr, input ? cast(GArrowExecuteNode*)input._cPtr(No.Dup) : null, options ? cast(GArrowSinkNodeOptions*)options._cPtr(No.Dup) : null, &_err);
+    if (_err)
+      throw new ErrorWrap(_err, Yes.Take);
+    auto _retval = gid.gobject2.object.ObjectWrap._getDObject!(gid_apache.arrow19.execute_node.ExecuteNode)(cast(GArrowExecuteNode*)_cretval, Yes.Take);
+    return _retval;
+  }
+
+  /**
+      This is a shortcut of [gid_apache.arrow26.execute_plan.ExecutePlan.buildNode] for source
+      node.
+  
+      Params:
+        options = A #GArrowSourceNodeOptions.
+      Returns: A newly built and added #GArrowExecuteNode
+          for source on success, null on error.
+      Throws: [ErrorWrap]
+  */
+  gid_apache.arrow19.execute_node.ExecuteNode buildSourceNode(gid_apache.arrow19.source_node_options.SourceNodeOptions options)
+  {
+    GArrowExecuteNode* _cretval;
+    GError *_err;
+    _cretval = garrow_execute_plan_build_source_node(cast(GArrowExecutePlan*)this._cPtr, options ? cast(GArrowSourceNodeOptions*)options._cPtr(No.Dup) : null, &_err);
+    if (_err)
+      throw new ErrorWrap(_err, Yes.Take);
+    auto _retval = gid.gobject2.object.ObjectWrap._getDObject!(gid_apache.arrow19.execute_node.ExecuteNode)(cast(GArrowExecuteNode*)_cretval, Yes.Take);
+    return _retval;
+  }
+
+  /** */
+  gid_apache.arrow19.execute_node.ExecuteNode[] getNodes() nothrow
+  {
+    GList* _cretval;
+    _cretval = garrow_execute_plan_get_nodes(cast(GArrowExecutePlan*)this._cPtr);
+    auto _retval = gListToD!(gid_apache.arrow19.execute_node.ExecuteNode, GidOwnership.None)(cast(GList*)_cretval);
+    return _retval;
+  }
+
+  /**
+      Starts this plan.
+  */
+  void start() nothrow
+  {
+    garrow_execute_plan_start(cast(GArrowExecutePlan*)this._cPtr);
+  }
+
+  /**
+      Stops this plan.
+  */
+  void stop() nothrow
+  {
+    garrow_execute_plan_stop(cast(GArrowExecutePlan*)this._cPtr);
+  }
+
+  /** */
+  bool validate()
+  {
+    bool _retval;
+    GError *_err;
+    _retval = cast(bool)garrow_execute_plan_validate(cast(GArrowExecutePlan*)this._cPtr, &_err);
+    if (_err)
+      throw new ErrorWrap(_err, Yes.Take);
+    return _retval;
+  }
+
+  /**
+      Waits for finishing this plan.
+      Returns: true on success, false on error.
+      Throws: [ErrorWrap]
+  */
+  bool wait()
+  {
+    bool _retval;
+    GError *_err;
+    _retval = cast(bool)garrow_execute_plan_wait(cast(GArrowExecutePlan*)this._cPtr, &_err);
+    if (_err)
+      throw new ErrorWrap(_err, Yes.Take);
+    return _retval;
+  }
+}
+
+/// Fluent builder implementation template for [gid_apache.arrow19.execute_plan.ExecutePlan]
+class ExecutePlanGidBuilderImpl(T) : gid.gobject2.object.ObjectWrapGidBuilderImpl!T
+{
+
+  /** */
+  T plan(void* propval) nothrow
+  {
+    return setProperty("plan", propval);
+  }
+}
+
+/// Fluent builder for [gid_apache.arrow19.execute_plan.ExecutePlan]
+final class ExecutePlanGidBuilder : ExecutePlanGidBuilderImpl!ExecutePlanGidBuilder
+{
+  /**
+      Create object from builder.
+      Returns: New object
+  */
+  ExecutePlan build() nothrow
+  {
+    return new ExecutePlan(cast(void*)createGObject(ExecutePlan._getGType), Yes.Take);
+  }
+}

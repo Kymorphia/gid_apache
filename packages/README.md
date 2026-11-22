@@ -1,6 +1,9 @@
-# gid_apache -giD bindings for the Apache Arrow and Parquet libraries
+# gid_apache - giD bindings for the Apache Arrow and Parquet libraries
 
-This is the top-level [Dub](https://dub.pm/) package for [giD](https://github.com/Kymorphia/gid) the GObject Introspection D Language Binding Repository.
+This is the top-level [Dub](https://dub.pm/) package for `gid_apache`.
+
+Modules are named `gid_apache.<package>.<module>`, for example `import gid_apache.arrow19.types;`.
+Applications should depend on the versioned subpackages they need (`gid_apache:arrow19`), not the top-level `gid_apache` package.
 
 ## Sub Package Information
 

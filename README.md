@@ -14,8 +14,15 @@ Each Arrow release has a set of sub-packages, which is named after the major ver
 `arrowflight19`..`arrowflight23`, and `parquet19`..`parquet23`.
 The Parquet, ArrowDataset and ArrowFlight packages depend on the Arrow package of the same version.
 
-All versions of a library provide the same D module names, so only one version of each can be used in an application
-(and `gid:arrow1` from the main giD repository, if still present, cannot be used together with these).
+Packages are namespaced with a `gid` prefix and the package name including its major version.
+So to import the statistics module from parquet v23, do:
+```D
+import gid.parquet23.statistics;
+```
+
+Multiple versions of the libraries can be loaded and selected at runtime, depending on which ones are available using gid
+`isLibAvailable`. See giD documentation for more details.
+
 
 See the [packages README](packages/README.md) for the list of packages.
 
@@ -30,7 +37,7 @@ Add `gid_apache` and `gid` as dependencies of your dub project and use the sub-p
 }
 ```
 
-The `gid` packages needed are pulled in automatically (`"gid:glib2": "~>0.9.15"`, etc.).
+The `gid` packages needed are pulled in automatically (`"gid:glib2": "~>0.9.17"`, etc.).
 The matching Arrow GLib shared libraries (`libarrow-glib.so.2300` for version 23, etc.) are loaded at runtime.
 
 The bindings are used like those of the other giD packages, consult the [giD README](https://github.com/Kymorphia/gid) for more information.
@@ -52,7 +59,7 @@ make packages  # builds all of the packages against ../gid (registered with dub 
 ```
 
 The `gid` dependency in `gidgen.json` makes gidgen load the defs and GIRs of **gid** only for resolving types,
-its packages are not written here and the dependencies on them are generated as `"gid:glib2": "~>0.9.15"`.
+its packages are not written here and the dependencies on them are generated as `"gid:glib2": "~>0.9.17"`.
 The `version` there is the dub version constraint used in all generated package dependencies on gid,
 `gidgen` needs to be a version which supports the `dependencies` option.
 

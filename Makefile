@@ -2,7 +2,7 @@
 # of this repository (../gid), see gidgen.json.
 GID_DIR ?= ../gid
 # Version registered for the local gid checkout, it only has to satisfy the version constraint in gidgen.json
-GID_LOCAL_VERSION ?= 0.9.15
+GID_LOCAL_VERSION ?= 0.9.17
 
 all: binding packages
 

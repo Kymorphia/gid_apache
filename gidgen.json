@@ -1,14 +1,12 @@
 {
-  "defs": "defs",
-  "gir-path": "gir",
-  "pkg-path": ".",
-  "subpkg-path": "packages",
+  "root": "gid_apache",
+  "shims": false,
   "dependencies": [
     {
       "name": "gid",
       "defs": "../gid/defs",
       "gir": "../gid/gir",
-      "version": "~>0.9.16"
+      "version": "~>0.9.17"
     }
   ]
 }

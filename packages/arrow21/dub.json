@@ -6,10 +6,10 @@
   "license": "MIT",
   "homepage": "https://arrow.apache.org",
   "targetType": "library",
-  "importPaths": [".", ".."],
-  "sourcePaths": ["arrow"],
+  "importPaths": ["."],
+  "sourcePaths": ["gid_apache"],
   "dependencies": {
-    "gid:gio2": "~>0.9.16",
-    "gid:glib2": "~>0.9.16"
+    "gid:gio2": "~>0.9.17",
+    "gid:glib2": "~>0.9.17"
   }
 }

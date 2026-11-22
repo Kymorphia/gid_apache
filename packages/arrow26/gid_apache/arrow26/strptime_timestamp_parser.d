@@ -1,0 +1,91 @@
+/// Module for [StrptimeTimestampParser] class
+module gid_apache.arrow26.strptime_timestamp_parser;
+
+public import gid.core.basictypes;
+import gid.core.utils;
+import gid.gobject2.gid_builder;
+import gid_apache.arrow26.c.functions;
+import gid_apache.arrow26.c.types;
+import gid_apache.arrow26.timestamp_parser;
+import gid_apache.arrow26.types;
+
+/** */
+class StrptimeTimestampParser : gid_apache.arrow26.timestamp_parser.TimestampParser
+{
+
+  /** */
+  this(void* ptr, Flag!"Take" take) nothrow
+  {
+    super(ptr, take);
+  }
+
+  /** */
+  static GType _getGType() nothrow
+  {
+    import gid.core.loader : gidSymbolNotFound;
+    return cast(void function())garrow_strptime_timestamp_parser_get_type != &gidSymbolNotFound ? garrow_strptime_timestamp_parser_get_type() : cast(GType)0;
+  }
+
+  /** */
+  override @property GType _gType() nothrow
+  {
+    return _getGType();
+  }
+
+  /** */
+  override @property string _gTypeName() nothrow
+  {
+    return "GArrowStrptimeTimestampParser";
+  }
+
+  /** Returns `this`, for use in `with` statements. */
+  override StrptimeTimestampParser self() nothrow
+  {
+    return this;
+  }
+
+  /**
+      Get builder for [gid_apache.arrow26.strptime_timestamp_parser.StrptimeTimestampParser]
+      Returns: New builder object
+  */
+  static StrptimeTimestampParserGidBuilder builder() nothrow
+  {
+    return new StrptimeTimestampParserGidBuilder;
+  }
+
+  /** */
+  this(string format) nothrow
+  {
+    GArrowStrptimeTimestampParser* _cretval;
+    const(char)* _format = format.toCString!(No.Malloc, No.Nullable);
+    _cretval = garrow_strptime_timestamp_parser_new(_format);
+    this(_cretval, Yes.Take);
+  }
+
+  /** */
+  string getFormat() nothrow
+  {
+    const(char)* _cretval;
+    _cretval = garrow_strptime_timestamp_parser_get_format(cast(GArrowStrptimeTimestampParser*)this._cPtr);
+    string _retval = (cast(const(char)*)_cretval).fromCString!(No.Free);
+    return _retval;
+  }
+}
+
+/// Fluent builder implementation template for [gid_apache.arrow26.strptime_timestamp_parser.StrptimeTimestampParser]
+class StrptimeTimestampParserGidBuilderImpl(T) : gid_apache.arrow26.timestamp_parser.TimestampParserGidBuilderImpl!T
+{
+}
+
+/// Fluent builder for [gid_apache.arrow26.strptime_timestamp_parser.StrptimeTimestampParser]
+final class StrptimeTimestampParserGidBuilder : StrptimeTimestampParserGidBuilderImpl!StrptimeTimestampParserGidBuilder
+{
+  /**
+      Create object from builder.
+      Returns: New object
+  */
+  StrptimeTimestampParser build() nothrow
+  {
+    return new StrptimeTimestampParser(cast(void*)createGObject(StrptimeTimestampParser._getGType), Yes.Take);
+  }
+}

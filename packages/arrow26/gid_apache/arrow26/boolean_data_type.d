@@ -1,0 +1,81 @@
+/// Module for [BooleanDataType] class
+module gid_apache.arrow26.boolean_data_type;
+
+public import gid.core.basictypes;
+import gid.core.utils;
+import gid.gobject2.gid_builder;
+import gid_apache.arrow26.c.functions;
+import gid_apache.arrow26.c.types;
+import gid_apache.arrow26.fixed_width_data_type;
+import gid_apache.arrow26.types;
+
+/** */
+class BooleanDataType : gid_apache.arrow26.fixed_width_data_type.FixedWidthDataType
+{
+
+  /** */
+  this(void* ptr, Flag!"Take" take) nothrow
+  {
+    super(ptr, take);
+  }
+
+  /** */
+  static GType _getGType() nothrow
+  {
+    import gid.core.loader : gidSymbolNotFound;
+    return cast(void function())garrow_boolean_data_type_get_type != &gidSymbolNotFound ? garrow_boolean_data_type_get_type() : cast(GType)0;
+  }
+
+  /** */
+  override @property GType _gType() nothrow
+  {
+    return _getGType();
+  }
+
+  /** */
+  override @property string _gTypeName() nothrow
+  {
+    return "GArrowBooleanDataType";
+  }
+
+  /** Returns `this`, for use in `with` statements. */
+  override BooleanDataType self() nothrow
+  {
+    return this;
+  }
+
+  /**
+      Get builder for [gid_apache.arrow26.boolean_data_type.BooleanDataType]
+      Returns: New builder object
+  */
+  static BooleanDataTypeGidBuilder builder() nothrow
+  {
+    return new BooleanDataTypeGidBuilder;
+  }
+
+  /** */
+  this() nothrow
+  {
+    GArrowBooleanDataType* _cretval;
+    _cretval = garrow_boolean_data_type_new();
+    this(_cretval, Yes.Take);
+  }
+}
+
+/// Fluent builder implementation template for [gid_apache.arrow26.boolean_data_type.BooleanDataType]
+class BooleanDataTypeGidBuilderImpl(T) : gid_apache.arrow26.fixed_width_data_type.FixedWidthDataTypeGidBuilderImpl!T
+{
+}
+
+/// Fluent builder for [gid_apache.arrow26.boolean_data_type.BooleanDataType]
+final class BooleanDataTypeGidBuilder : BooleanDataTypeGidBuilderImpl!BooleanDataTypeGidBuilder
+{
+  /**
+      Create object from builder.
+      Returns: New object
+  */
+  BooleanDataType build() nothrow
+  {
+    return new BooleanDataType(cast(void*)createGObject(BooleanDataType._getGType), Yes.Take);
+  }
+}

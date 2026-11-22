@@ -1,0 +1,93 @@
+/// Module for [Decimal32DataType] class
+module gid_apache.arrow20.decimal32_data_type;
+
+public import gid.core.basictypes;
+import gid.core.utils;
+import gid.glib2.error;
+import gid.gobject2.gid_builder;
+import gid_apache.arrow20.c.functions;
+import gid_apache.arrow20.c.types;
+import gid_apache.arrow20.decimal_data_type;
+import gid_apache.arrow20.types;
+
+/** */
+class Decimal32DataType : gid_apache.arrow20.decimal_data_type.DecimalDataType
+{
+
+  /** */
+  this(void* ptr, Flag!"Take" take) nothrow
+  {
+    super(ptr, take);
+  }
+
+  /** */
+  static GType _getGType() nothrow
+  {
+    import gid.core.loader : gidSymbolNotFound;
+    return cast(void function())garrow_decimal32_data_type_get_type != &gidSymbolNotFound ? garrow_decimal32_data_type_get_type() : cast(GType)0;
+  }
+
+  /** */
+  override @property GType _gType() nothrow
+  {
+    return _getGType();
+  }
+
+  /** */
+  override @property string _gTypeName() nothrow
+  {
+    return "GArrowDecimal32DataType";
+  }
+
+  /** Returns `this`, for use in `with` statements. */
+  override Decimal32DataType self() nothrow
+  {
+    return this;
+  }
+
+  /**
+      Get builder for [gid_apache.arrow20.decimal32_data_type.Decimal32DataType]
+      Returns: New builder object
+  */
+  static Decimal32DataTypeGidBuilder builder() nothrow
+  {
+    return new Decimal32DataTypeGidBuilder;
+  }
+
+  /** */
+  this(int precision, int scale)
+  {
+    GArrowDecimal32DataType* _cretval;
+    GError *_err;
+    _cretval = garrow_decimal32_data_type_new(precision, scale, &_err);
+    if (_err)
+      throw new ErrorWrap(_err, Yes.Take);
+    this(_cretval, Yes.Take);
+  }
+
+  /** */
+  static int maxPrecision() nothrow
+  {
+    int _retval;
+    _retval = garrow_decimal32_data_type_max_precision();
+    return _retval;
+  }
+}
+
+/// Fluent builder implementation template for [gid_apache.arrow20.decimal32_data_type.Decimal32DataType]
+class Decimal32DataTypeGidBuilderImpl(T) : gid_apache.arrow20.decimal_data_type.DecimalDataTypeGidBuilderImpl!T
+{
+}
+
+/// Fluent builder for [gid_apache.arrow20.decimal32_data_type.Decimal32DataType]
+final class Decimal32DataTypeGidBuilder : Decimal32DataTypeGidBuilderImpl!Decimal32DataTypeGidBuilder
+{
+  /**
+      Create object from builder.
+      Returns: New object
+  */
+  Decimal32DataType build() nothrow
+  {
+    return new Decimal32DataType(cast(void*)createGObject(Decimal32DataType._getGType), Yes.Take);
+  }
+}
